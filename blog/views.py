@@ -43,9 +43,9 @@ class UserArticleListView(ListView):
     context_object_name = 'user_articles'
     paginate_by = 10
 
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return super(UserArticleListView, self).get_queryset().filter(author=user)
+    # def get_queryset(self):
+    #     user = get_object_or_404(User, username=self.kwargs.get('username'))
+    #     return super(UserArticleListView, self).get_queryset().filter(author=user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,11 +61,11 @@ class CategoryArticleListView(ListView):
     template_name = 'blog/category_posts.html'
     context_object_name = 'category_posts'
     paginate_by = 10
-    # slug_url_kwarg = 'slug'
+    # slug_field = 'slug'
 
-    def get_queryset(self):
-        category = get_object_or_404(Category, slug=self.kwargs['slug'])
-        return super(CategoryArticleListView, self).get_queryset().filter(category=category)
+    # def get_queryset(self):
+    #     category = get_object_or_404(Category, slug=self.kwargs['slug'])
+    #     return super(CategoryArticleListView, self).get_queryset().filter(category=category)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

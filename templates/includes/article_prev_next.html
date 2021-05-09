@@ -6,7 +6,7 @@
                                             <div class="list-group">
                                                 <a href="{{ article.get_previous_by_created.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
                                                     <div class="w-100 justify-content-between text-right">
-                                                        <img src="{{ article.get_previous_by_created.image.url }}" alt="{{ article.get_previous_by_created.title }}" class="img-fluid float-right">
+                                                        <img src="{{ article.get_previous_by_created.image.url }}" alt="" class="img-fluid float-right">
                                                         <h5 class="mb-1">{{ article.get_previous_by_created.title }}</h5>
                                                     </div>
                                                 </a>
@@ -20,7 +20,7 @@
                                             <div class="list-group">
                                                 <a href="{{ article.get_next_by_created.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
                                                     <div class="w-100 justify-content-between">
-                                                        <img src="{{ article.get_next_by_created.image.url }}" alt="{{ article.get_next_by_created.title }}" class="img-fluid float-left">
+                                                        <img src="{{ article.get_next_by_created.image.url }}" alt="" class="img-fluid float-left">
                                                         <h5 class="mb-1">{{ article.get_next_by_created.title }}</h5>
 
                                                     </div>

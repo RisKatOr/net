@@ -6,40 +6,43 @@ from hitcount.views import HitCountDetailView
 from taggit.models import Tag
 
 
-
 class ArticleListView(ListView):
     model = Article
     paginate_by = 10
     queryset = Article.objects.filter(status=True)
+
     # template_name = 'blog/article_list.html' #<app>/<model>_<viewtype>.html
     # ordering = ['-created'] # Model'de Article'ın sıralaması zaten tarihe göre ayarlı olduğunda buna burada gerek yok yada farklı bir unsura göre sıralama olabilir
     # context_object_name = 'article_list' # Varsayılan olarak object_list ve modelAdı_list yani zaten article_list 'dir.
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')
-        context['latest_list'] = get_list_or_404(Article, status=True)
+        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
+        # context['latest_list'] = get_list_or_404(Article, status=True) # En son yayınlara göre sıralamak için
+        context['latest_list'] = Article.objects.filter(status=True).order_by(
+            "-hit_count_generic__hits")[0:3]  # En çok okunana göre sıralamak için
         return context
 
 
 class ArticleDetailView(HitCountDetailView):
     model = Article
     count_hit = True
-    #context_object_name = 'article' # default <model>
-    #template_name = 'blog/article_detail.html' # default <app>/<model>_<viewtype>.html
+
+    # context_object_name = 'article' # default <model>
+    # template_name = 'blog/article_detail.html' # default <app>/<model>_<viewtype>.html
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['similar_articles'] = self.object.tags.similar_objects()
-        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')
-        context['latest_list'] = get_list_or_404(Article, status=True)
+        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
+        context['latest_list'] = get_list_or_404(Article, status=True)[0:3]
         return context
 
 
 class UserArticleListView(ListView):
     model = Article
     queryset = Article.objects.filter(status=True)
-    template_name = 'blog/user_articles.html' #<app>/<model>_<viewtype>.html
+    template_name = 'blog/user_articles.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'user_articles'
     paginate_by = 10
 
@@ -50,8 +53,8 @@ class UserArticleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = User.objects.get(username__iexact=self.kwargs.get('username'))
-        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')
-        context['latest_list'] = Article.objects.filter(status=True)
+        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
+        context['latest_list'] = Article.objects.filter(status=True)[0:3]
         return context
 
 
@@ -61,6 +64,7 @@ class CategoryArticleListView(ListView):
     template_name = 'blog/category_posts.html'
     context_object_name = 'category_posts'
     paginate_by = 10
+
     # slug_field = 'slug'
 
     # def get_queryset(self):
@@ -70,8 +74,8 @@ class CategoryArticleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = Category.objects.get(slug__iexact=self.kwargs.get('slug'))
-        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')
-        context['latest_list'] = Article.objects.filter(status=True)
+        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
+        context['latest_list'] = Article.objects.filter(status=True)[0:3]
         return context
 
 
@@ -83,8 +87,8 @@ class TagsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')
-        context['latest_list'] = Article.objects.filter(status=True)
+        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
+        context['latest_list'] = Article.objects.filter(status=True)[0:3]
         return context
 
 
@@ -101,6 +105,6 @@ class TagListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tag'] = Tag.objects.get(slug__iexact=self.kwargs.get('slug'))
-        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')
-        context['latest_list'] = Article.objects.filter(status=True)
+        context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
+        context['latest_list'] = Article.objects.filter(status=True)[0:3]
         return context

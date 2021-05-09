@@ -38,7 +38,7 @@
                             <div class="widget">
                                 <h2 class="widget-title">Trend Haberler</h2>
                                 <div class="trend-videos">
-                                    {% for featured in featured_list|slice:"0:3" %}
+                                    {% for featured in featured_list %}
                                     <div class="blog-box">
                                         <div class="post-media">
                                             <a href="{{ featured.get_absolute_url }}" title="">
@@ -62,7 +62,7 @@
                                 <h2 class="widget-title">En Son Haberler</h2>
                                 <div class="blog-list-widget">
                                     <div class="list-group">
-                                        {% for latest in latest_list|slice:"0:3" %}
+                                        {% for latest in latest_list %}
                                         <a href="{{ latest.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 justify-content-between">
                                                 <img src="{{ latest.image.url }}" alt="{{ latest.title }}" class="img-fluid float-left">

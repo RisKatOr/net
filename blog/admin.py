@@ -6,8 +6,8 @@ from .models import Article, Category, Comment
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author', 'featured', 'status', 'created')
     list_editable = ('status', 'featured')
-    list_filter = ('status', 'featured')
-    search_fields = ['title', 'content']
+    list_filter = ('status', 'featured', 'created')
+    search_fields = ('title', 'content')
     prepopulated_fields = {'slug': ('title',)}
     list_display_links = ('id', 'title')
 
@@ -18,8 +18,13 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'date_added')
-    search_fields = ['name', 'body']
+    list_display = ('name', 'email', 'active', 'date_added')
+    list_filter = ('active', 'date_added')
+    list_editable = ('active',)
+    search_fields = ('name', 'email', 'body')
+
+    # def approve_comments(self, queryset):
+    #     queryset.update(active=True)
 
 
 admin.site.register(Article, ArticleAdmin)

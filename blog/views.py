@@ -1,9 +1,16 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from django.contrib.auth.models import User
 from .models import Article, Category
 from hitcount.views import HitCountDetailView
 from taggit.models import Tag
+
+from .forms import CommentForm
+
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 
 class ArticleListView(ListView):
@@ -108,3 +115,38 @@ class TagListView(ListView):
         context['featured_list'] = Article.objects.filter(status=True, featured=True).order_by('?')[0:3]
         context['latest_list'] = Article.objects.filter(status=True)[0:3]
         return context
+
+
+class AddCommentView(SuccessMessageMixin, CreateView):
+    form_class = CommentForm
+    success_url = reverse_lazy('article_detail')
+    template_name = 'blog/article_detail.html'
+    success_message = "Yorumunuz başarıyla gönderildi.!"
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Gönderiminizle ilgili bir sorun oluştu. Lütfen tekrar deneyin.')
+        return HttpResponseRedirect('article_detail')
+
+# def post_detail(request, pk, slug):
+#     template_name = 'blog/article_detail.html'
+#     post = get_object_or_404(Article, pk=pk, slug=slug)
+#     comments = post.comments.filter(active=True)
+#     new_comment = None
+#     # Comment posted
+#     if request.method == 'POST':
+#         comment_form = CommentForm(data=request.POST)
+#         if comment_form.is_valid():
+#
+#             # Create Comment object but don't save to database yet
+#             new_comment = comment_form.save(commit=False)
+#             # Assign the current post to the comment
+#             new_comment.post = post
+#             # Save the comment to the database
+#             new_comment.save()
+#     else:
+#         comment_form = CommentForm()
+#
+#     return render(request, template_name, {'post': post,
+#                                            'comments': comments,
+#                                            'new_comment': new_comment,
+#                                            'comment_form': comment_form})

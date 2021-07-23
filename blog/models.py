@@ -62,11 +62,13 @@ class Comment(models.Model):
     name = models.CharField(max_length=50, verbose_name="Ad")
     email = models.EmailField(max_length=100, verbose_name="E-Mail")
     body = models.TextField(max_length=1000, verbose_name="Yorum")
+    active = models.BooleanField(default=False, verbose_name="Yayında")
     date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-date_added']
+        verbose_name = "Yorum"
+        verbose_name_plural = "Yorum"
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        verbose_name = "Yorum"
-        verbose_name_plural = "Yorum"

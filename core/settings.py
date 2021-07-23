@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'blog',
-    'home',
-    'contact',
-    'users',
+    'blog.apps.BlogConfig',
+    'home.apps.HomeConfig',
+    'contact.apps.ContactConfig',
+    'users.apps.UsersConfig',
 
     'debug_toolbar',
     'hitcount',

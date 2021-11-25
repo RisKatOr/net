@@ -142,7 +142,6 @@ celerybeat.pid
 # .env
 .env/
 .venv/
-.sanal/
 env/
 venv/
 sanal/
@@ -150,7 +149,6 @@ ENV/
 SANAL/
 env.bak/
 venv.bak/
-sanal.bak/
 pythonenv*
 
 # Spyder project settings
